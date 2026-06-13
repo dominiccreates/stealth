@@ -2,11 +2,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, User, Palette, Bell, Keyboard, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import type { UiPreferences } from "@/features/preferences";
 
 const tabs = [
   { id: "account", label: "Account", icon: User },
   { id: "appearance", label: "Appearance", icon: Palette },
   { id: "notifications", label: "Notifications", icon: Bell },
+  { id: "inbox", label: "Inbox control", icon: ShieldCheck },
   { id: "shortcuts", label: "Shortcuts", icon: Keyboard },
 ] as const;
 
