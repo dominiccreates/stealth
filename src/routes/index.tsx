@@ -211,7 +211,15 @@ function MailApp() {
     if (!visibleEmails.some((email) => email.id === selectedId)) {
       setSelectedId(visibleEmails[0]?.id ?? null);
     }
-  }, [folder, selectedId, visibleEmails]);
+  }, [customFolder, folder, selectedId, visibleEmails]);
+
+  useEffect(() => {
+    if (!customFolder) return;
+    const firstMatch = emails.find((email) =>
+      email.labels?.some((label) => label.toLowerCase() === customFolder.toLowerCase()),
+    );
+    setSelectedId(firstMatch?.id ?? null);
+  }, [customFolder, emails]);
 
   return (
     <div className="relative min-h-screen text-foreground">
@@ -233,8 +241,8 @@ function MailApp() {
         />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <Topbar 
-            onOpenPalette={() => setPaletteOpen(true)} 
+          <Topbar
+            onOpenPalette={() => setPaletteOpen(true)}
             onOpenSettings={() => setSettingsOpen(true)}
             onShowToast={showToast}
           />
