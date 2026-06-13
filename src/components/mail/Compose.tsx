@@ -380,7 +380,7 @@ export function Compose({
                 )}
                 style={{ boxShadow: "0 8px 30px -10px rgba(0,0,0,0.6)" }}
               >
-                <Send className={cn("h-3.5 w-3.5", isSending && "animate-pulse")} /> 
+                <Send className={cn("h-3.5 w-3.5", isSending && "animate-pulse")} />
                 {isSending ? "Sending..." : "Send"}
               </motion.button>
             </div>
@@ -425,13 +425,13 @@ function ProtocolToggle({
   );
 }
 
-function Field({ 
-  label, 
-  placeholder, 
-  value, 
-  onChange 
-}: { 
-  label: string; 
+function Field({
+  label,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
   placeholder: string;
   value: string;
   onChange: (v: string) => void;
