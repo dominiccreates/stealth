@@ -469,7 +469,15 @@ function FilterToggle({
   );
 }
 
-function AccountMenuItem({ icon: Icon, label, onClick }: { icon: any; label: string; onClick: () => void }) {
+function AccountMenuItem({
+  icon: Icon,
+  label,
+  onClick,
+}: {
+  icon: any;
+  label: string;
+  onClick: () => void;
+}) {
   return (
     <button
       onClick={onClick}

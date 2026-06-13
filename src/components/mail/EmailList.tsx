@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { getEmailsForFolder, getFolderLabel, type Email, type MailFolder } from "./data";
+import {
+  applyMailFilters,
+  getEmailsForFolder,
+  getFolderLabel,
+  type Email,
+  type MailFilters,
+  type MailFolder,
+} from "./data";
 import { cn } from "@/lib/utils";
 
 type FilterTab = "all" | "unread" | "flagged";
