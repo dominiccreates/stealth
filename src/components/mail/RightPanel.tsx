@@ -3,12 +3,16 @@ import { motion } from "framer-motion";
 import {
   ArrowUpRight,
   Calendar,
+  CalendarPlus,
+  ChevronRight,
   Paperclip,
   Send,
   Sparkles,
   User,
   type LucideIcon,
 } from "lucide-react";
+import { format, isSameDay, parseISO } from "date-fns";
+import type { CalendarDefinition, CalendarEvent } from "@/features/calendar";
 import type { Email } from "./data";
 
 export type ContextAction = "snooze" | "translate" | "schedule" | "summarize";
@@ -17,10 +21,18 @@ export function RightPanel({
   email,
   onAction,
   onDraftReply,
+  calendarEvents,
+  calendars,
+  onOpenCalendar,
+  onCreateEvent,
 }: {
   email: Email | null;
   onAction: (action: ContextAction, email: Email) => void;
   onDraftReply: (email: Email, prompt: string) => void;
+  calendarEvents: CalendarEvent[];
+  calendars: CalendarDefinition[];
+  onOpenCalendar: (eventId?: string) => void;
+  onCreateEvent: () => void;
 }) {
   const [prompt, setPrompt] = useState("");
   const [summary, setSummary] = useState<string | null>(null);
@@ -89,25 +101,51 @@ export function RightPanel({
       </Card>
 
       <Card>
-        <SectionHeader icon={Calendar} title="Today" />
+        <div className="flex items-center">
+          <SectionHeader icon={Calendar} title="Today" />
+          <button
+            onClick={onCreateEvent}
+            className="ml-auto rounded-md p-1.5 text-muted-foreground transition hover:bg-white/[0.06] hover:text-foreground"
+            aria-label="Create calendar event"
+          >
+            <CalendarPlus className="h-3.5 w-3.5" />
+          </button>
+        </div>
         <ul className="mt-3 space-y-2">
-          {[
-            { t: "10:00", title: "Design review", color: "oklch(0.85 0.005 270)" },
-            { t: "13:30", title: "1:1 with Marcus", color: "oklch(0.7 0.005 270)" },
-            { t: "16:00", title: "Investor sync", color: "oklch(0.6 0.005 270)" },
-          ].map((event) => (
-            <li
-              key={event.title}
-              className="group flex items-center gap-3 rounded-lg px-2 py-1.5 transition hover:bg-white/[0.04]"
-            >
-              <span className="h-8 w-1 rounded-full" style={{ background: event.color }} />
-              <div className="flex-1">
-                <div className="text-[11px] tabular-nums text-muted-foreground">{event.t}</div>
-                <div className="text-xs text-foreground">{event.title}</div>
-              </div>
-            </li>
-          ))}
+          {calendarEvents
+            .filter((event) => isSameDay(parseISO(event.date), new Date(2026, 5, 13)))
+            .slice(0, 4)
+            .map((event) => {
+              const calendar = calendars.find((item) => item.id === event.calendarId);
+              return (
+                <li key={event.title} className="group rounded-lg transition hover:bg-white/[0.04]">
+                  <button
+                    onClick={() => onOpenCalendar(event.id)}
+                    className="flex w-full items-center gap-3 px-2 py-1.5 text-left"
+                  >
+                    <span
+                      className="h-8 w-1 rounded-full"
+                      style={{ background: calendar?.color ?? "oklch(0.75 0.005 270)" }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[11px] tabular-nums text-muted-foreground">
+                        {event.time} - {event.endTime}
+                      </div>
+                      <div className="truncate text-xs text-foreground">{event.title}</div>
+                    </div>
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 transition group-hover:opacity-100" />
+                  </button>
+                </li>
+              );
+            })}
         </ul>
+        <button
+          onClick={() => onOpenCalendar()}
+          className="mt-3 flex w-full items-center justify-between rounded-lg border border-white/8 bg-white/[0.025] px-3 py-2 text-[10px] text-muted-foreground transition hover:bg-white/[0.06] hover:text-foreground"
+        >
+          <span>{format(new Date(2026, 5, 13), "MMMM d")} schedule</span>
+          <span>Open calendar</span>
+        </button>
       </Card>
 
       {email?.attachments?.length ? (
