@@ -14,6 +14,7 @@ import { Route as ApiV1ProtocolRouteImport } from './routes/api/v1/protocol'
 import { Route as ApiV1HealthRouteImport } from './routes/api/v1/health'
 import { Route as ApiV1ReceiptsIndexRouteImport } from './routes/api/v1/receipts/index'
 import { Route as ApiV1PostageIndexRouteImport } from './routes/api/v1/postage/index'
+import { Route as ApiV1ReceiptsMessageIdRouteImport } from './routes/api/v1/receipts/$messageId'
 import { Route as ApiV1PostageQuoteRouteImport } from './routes/api/v1/postage/quote'
 import { Route as ApiV1PostageMessageIdRouteImport } from './routes/api/v1/postage/$messageId'
 import { Route as ApiV1PoliciesEvaluateRouteImport } from './routes/api/v1/policies/evaluate'
@@ -45,6 +46,11 @@ const ApiV1ReceiptsIndexRoute = ApiV1ReceiptsIndexRouteImport.update({
 const ApiV1PostageIndexRoute = ApiV1PostageIndexRouteImport.update({
   id: '/api/v1/postage/',
   path: '/api/v1/postage/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1ReceiptsMessageIdRoute = ApiV1ReceiptsMessageIdRouteImport.update({
+  id: '/api/v1/receipts/$messageId',
+  path: '/api/v1/receipts/$messageId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiV1PostageQuoteRoute = ApiV1PostageQuoteRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/api/v1/policies/evaluate': typeof ApiV1PoliciesEvaluateRoute
   '/api/v1/postage/$messageId': typeof ApiV1PostageMessageIdRouteWithChildren
   '/api/v1/postage/quote': typeof ApiV1PostageQuoteRoute
+  '/api/v1/receipts/$messageId': typeof ApiV1ReceiptsMessageIdRoute
   '/api/v1/postage/': typeof ApiV1PostageIndexRoute
   '/api/v1/receipts/': typeof ApiV1ReceiptsIndexRoute
   '/api/v1/postage/$messageId/refund': typeof ApiV1PostageMessageIdRefundRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/api/v1/policies/evaluate': typeof ApiV1PoliciesEvaluateRoute
   '/api/v1/postage/$messageId': typeof ApiV1PostageMessageIdRouteWithChildren
   '/api/v1/postage/quote': typeof ApiV1PostageQuoteRoute
+  '/api/v1/receipts/$messageId': typeof ApiV1ReceiptsMessageIdRoute
   '/api/v1/postage': typeof ApiV1PostageIndexRoute
   '/api/v1/receipts': typeof ApiV1ReceiptsIndexRoute
   '/api/v1/postage/$messageId/refund': typeof ApiV1PostageMessageIdRefundRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/api/v1/policies/evaluate': typeof ApiV1PoliciesEvaluateRoute
   '/api/v1/postage/$messageId': typeof ApiV1PostageMessageIdRouteWithChildren
   '/api/v1/postage/quote': typeof ApiV1PostageQuoteRoute
+  '/api/v1/receipts/$messageId': typeof ApiV1ReceiptsMessageIdRoute
   '/api/v1/postage/': typeof ApiV1PostageIndexRoute
   '/api/v1/receipts/': typeof ApiV1ReceiptsIndexRoute
   '/api/v1/postage/$messageId/refund': typeof ApiV1PostageMessageIdRefundRoute
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/api/v1/policies/evaluate'
     | '/api/v1/postage/$messageId'
     | '/api/v1/postage/quote'
+    | '/api/v1/receipts/$messageId'
     | '/api/v1/postage/'
     | '/api/v1/receipts/'
     | '/api/v1/postage/$messageId/refund'
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/api/v1/policies/evaluate'
     | '/api/v1/postage/$messageId'
     | '/api/v1/postage/quote'
+    | '/api/v1/receipts/$messageId'
     | '/api/v1/postage'
     | '/api/v1/receipts'
     | '/api/v1/postage/$messageId/refund'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/api/v1/policies/evaluate'
     | '/api/v1/postage/$messageId'
     | '/api/v1/postage/quote'
+    | '/api/v1/receipts/$messageId'
     | '/api/v1/postage/'
     | '/api/v1/receipts/'
     | '/api/v1/postage/$messageId/refund'
@@ -182,6 +194,7 @@ export interface RootRouteChildren {
   ApiV1PoliciesEvaluateRoute: typeof ApiV1PoliciesEvaluateRoute
   ApiV1PostageMessageIdRoute: typeof ApiV1PostageMessageIdRouteWithChildren
   ApiV1PostageQuoteRoute: typeof ApiV1PostageQuoteRoute
+  ApiV1ReceiptsMessageIdRoute: typeof ApiV1ReceiptsMessageIdRoute
   ApiV1PostageIndexRoute: typeof ApiV1PostageIndexRoute
   ApiV1ReceiptsIndexRoute: typeof ApiV1ReceiptsIndexRoute
 }
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/api/v1/postage'
       fullPath: '/api/v1/postage/'
       preLoaderRoute: typeof ApiV1PostageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/receipts/$messageId': {
+      id: '/api/v1/receipts/$messageId'
+      path: '/api/v1/receipts/$messageId'
+      fullPath: '/api/v1/receipts/$messageId'
+      preLoaderRoute: typeof ApiV1ReceiptsMessageIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/v1/postage/quote': {
@@ -309,6 +329,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiV1PoliciesEvaluateRoute: ApiV1PoliciesEvaluateRoute,
   ApiV1PostageMessageIdRoute: ApiV1PostageMessageIdRouteWithChildren,
   ApiV1PostageQuoteRoute: ApiV1PostageQuoteRoute,
+  ApiV1ReceiptsMessageIdRoute: ApiV1ReceiptsMessageIdRoute,
   ApiV1PostageIndexRoute: ApiV1PostageIndexRoute,
   ApiV1ReceiptsIndexRoute: ApiV1ReceiptsIndexRoute,
 }

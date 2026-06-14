@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { MemoryApiRepository } from "../../../src/server/api/memory-repository";
-import { createDeliveryReceipt } from "../../../src/server/api/receipt-service";
+import {
+  assertReceiptParticipant,
+  createDeliveryReceipt,
+  getReceipt,
+} from "../../../src/server/api/receipt-service";
 
 const recipient = `G${"A".repeat(55)}`;
 const sender = `G${"B".repeat(55)}`;
@@ -23,5 +27,16 @@ describe("receipt service", () => {
     });
 
     await expect(createDeliveryReceipt(repository, input)).rejects.toMatchObject({ status: 409 });
+  });
+
+  it("returns receipts only to message participants", async () => {
+    const repository = new MemoryApiRepository();
+    const receipt = await createDeliveryReceipt(repository, { messageId, recipient, sender });
+
+    await expect(getReceipt(repository, messageId)).resolves.toEqual(receipt);
+    expect(() => assertReceiptParticipant(receipt, recipient)).not.toThrow();
+    expect(() => assertReceiptParticipant(receipt, `G${"C".repeat(55)}`)).toThrowError(
+      expect.objectContaining({ status: 403 }),
+    );
   });
 });

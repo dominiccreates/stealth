@@ -17,3 +17,17 @@ export async function createDeliveryReceipt(
     readAt: null,
   });
 }
+
+export async function getReceipt(repository: ApiRepository, messageId: string) {
+  const receipt = await repository.getReceipt(messageId);
+  if (!receipt) {
+    throw new ApiError(404, "not_found", "Receipt was not found");
+  }
+  return receipt;
+}
+
+export function assertReceiptParticipant(receipt: Receipt, actor: string) {
+  if (actor !== receipt.sender && actor !== receipt.recipient) {
+    throw new ApiError(403, "forbidden", "Only message participants can read this receipt");
+  }
+}
