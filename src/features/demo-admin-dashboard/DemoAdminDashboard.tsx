@@ -4,6 +4,7 @@ import {
   BarChart3,
   LayoutDashboard,
   Mail,
+  PieChart,
   Shield,
   Users,
 } from "lucide-react";
@@ -22,6 +23,7 @@ const NAV_ITEMS: DashboardNavItem[] = [
   { id: "accounts", label: "Accounts", description: "Demo Stellar accounts and balances" },
   { id: "mail", label: "Mail", description: "Demo mail fixtures and delivery states" },
   { id: "audit", label: "Audit", description: "Demo protocol event log" },
+  { id: "analytics", label: "Analytics", description: "Privacy-preserving product analytics" },
 ];
 
 const OVERVIEW_STATS: StatCard[] = [
@@ -59,6 +61,7 @@ const SECTION_ICON: Record<DashboardSection, React.ElementType> = {
   accounts: Users,
   mail: Mail,
   audit: Activity,
+  analytics: PieChart,
 };
 
 // ─── Content region components ────────────────────────────────────────────────
@@ -193,11 +196,87 @@ function AuditContent() {
   );
 }
 
+function AnalyticsContent() {
+  const [enabled, setEnabled] = useState(true);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          Privacy-preserving product analytics. Answers activation and reliability questions without revealing relationships.
+        </p>
+        <button
+          onClick={() => setEnabled(!enabled)}
+          className={cn(
+            "rounded-lg px-3 py-1.5 text-xs font-medium transition",
+            enabled ? "bg-emerald-500/10 text-emerald-400" : "bg-white/[0.08] text-muted-foreground"
+          )}
+        >
+          {enabled ? "Analytics Enabled" : "Analytics Disabled"}
+        </button>
+      </div>
+
+      {enabled ? (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Activation (Weekly)</h4>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-foreground">Completed Onboarding</span>
+                <span className="text-sm font-medium tabular-nums text-emerald-400">82%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-foreground">Retained Mailboxes</span>
+                <span className="text-sm font-medium tabular-nums text-foreground">145</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-foreground">Avg Budget Used</span>
+                <span className="text-sm font-medium tabular-nums text-amber-400">1.2 ε</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Reliability</h4>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-foreground">Send Success Rate</span>
+                <span className="text-sm font-medium tabular-nums text-emerald-400">99.8%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-foreground">Proof Failures</span>
+                <span className="text-sm font-medium tabular-nums text-rose-400">0.05%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-foreground">Policy Violations</span>
+                <span className="text-sm font-medium tabular-nums text-amber-400">2</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:col-span-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Privacy & Retention Policy</h4>
+            <p className="text-sm text-muted-foreground">
+              All events are subject to strict deletion schedules. No plaintext bodies, subjects, keys, or correspondents are logged. 
+              Maximum privacy budget per user is capped to ensure differential privacy.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="flex h-32 items-center justify-center rounded-xl border border-white/[0.06] border-dashed">
+          <p className="text-sm text-muted-foreground">Analytics collection is currently disabled.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 const SECTION_CONTENT: Record<DashboardSection, () => ReactNode> = {
   overview: OverviewContent,
   accounts: AccountsContent,
   mail: MailContent,
   audit: AuditContent,
+  analytics: AnalyticsContent,
 };
 
 // ─── Dashboard Shell ──────────────────────────────────────────────────────────
