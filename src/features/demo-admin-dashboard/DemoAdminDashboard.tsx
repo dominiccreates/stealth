@@ -28,11 +28,13 @@ import type {
 } from "./types";
 import { TemplatePicker } from "./templates";
 import { PRESET_SCENARIOS } from "./fixtures/presets";
+import { CampaignSnapshots } from "./components/CampaignSnapshots";
+import type { Draft } from "./types/draft";
 import { AdminDataTable, type Column } from "./components/AdminDataTable";
 
 // ─── Default Deterministic fake data ──────────────────────────────────────────
 
-const NAV_ITEMS: DashboardNavItem[] = [
+export const NAV_ITEMS: DashboardNavItem[] = [
   { id: "overview", label: "Overview", description: "High-level demo system status" },
   { id: "accounts", label: "Accounts", description: "Demo Stellar accounts and balances" },
   { id: "mail", label: "Mail", description: "Demo mail fixtures and delivery states" },
@@ -170,7 +172,7 @@ const EVENTS_FAKE: PresetEvent[] = [
 
 // ─── Section icon map ─────────────────────────────────────────────────────────
 
-const SECTION_ICON: Record<DashboardSection, React.ElementType> = {
+export const SECTION_ICON: Record<DashboardSection, React.ElementType> = {
   overview: LayoutDashboard,
   accounts: Users,
   mail: Mail,
@@ -647,6 +649,39 @@ function TemplatesContent() {
   return <TemplatePicker />;
 }
 
+function CampaignsContent() {
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+
+  return <CampaignSnapshots currentDataset={drafts} onRestoreDataset={setDrafts} />;
+}
+
+function AnalyticsContent() {
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">
+        Privacy-preserving product analytics dashboard. Aggregate demo metrics will appear here once
+        this section is connected to the analytics pipeline.
+      </p>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {[
+          { label: "Active Sessions", value: "—", note: "Requires analytics integration" },
+          { label: "Features Used", value: "—", note: "Requires analytics integration" },
+          { label: "Avg. Session", value: "—", note: "Requires analytics integration" },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4"
+          >
+            <p className="text-xs font-medium text-muted-foreground">{stat.label}</p>
+            <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">{stat.value}</p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground/60">{stat.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Dashboard Shell ──────────────────────────────────────────────────────────
 
 export function DemoAdminDashboard({ className }: DemoAdminDashboardProps) {
@@ -791,7 +826,11 @@ export function DemoAdminDashboard({ className }: DemoAdminDashboardProps) {
 
           {activeSection === "templates" && <TemplatesContent />}
 
+          {activeSection === "campaigns" && <CampaignsContent />}
+
           {activeSection === "audit" && <AuditContent auditEvents={auditEvents} />}
+
+          {activeSection === "analytics" && <AnalyticsContent />}
         </div>
       </div>
 
