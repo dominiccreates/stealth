@@ -1,4 +1,3 @@
-
 export type AdminDashboardBreakpoint = "tablet" | "laptop" | "desktop";
 
 export type AdminDashboardPanel = {

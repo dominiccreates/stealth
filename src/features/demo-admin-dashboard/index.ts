@@ -6,11 +6,15 @@ export {
   getAdminDashboardWidthNote,
   isAdminDashboardWidthSupported,
 } from "./layout";
+
 export {
   adminDashboardLayoutChecks,
   adminDashboardPanels,
   adminDashboardWidthNotes,
 } from "./fixtures/demoData";
+
+export { defaultCampaignSnapshots } from "./fixtures/campaignSnapshotFixtures";
+
 export type {
   AdminDashboardBreakpoint,
   AdminDashboardLayoutCheck,
@@ -24,13 +28,21 @@ export type {
   PresetEvent,
 } from "./types";
 
+export type { CampaignSnapshot } from "./types/campaignSnapshot";
+
+export {
+  CAMPAIGN_STATUS_TOKENS,
+  TAG_COLOR_TOKENS,
+  AUDIENCE_BADGE_TOKENS,
+  getTagToken,
+  getAudienceToken,
+} from "./constants/displayTokens";
+
 export {
   TemplatePicker,
   messageTemplates,
   searchTemplates,
-  groupByCategory,
   templateToDraft,
-  draftIdForTemplate,
   isTemplateInserted,
   insertTemplate,
   removeDraft,

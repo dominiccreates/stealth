@@ -26,6 +26,7 @@ const NAV_ITEMS: DashboardNavItem[] = [
   { id: "attachments", label: "Attachments", description: "Demo mail attachment fixtures" },
   { id: "events", label: "Events", description: "Demo calendar and protocol events" },
   { id: "templates", label: "Templates", description: "Pick message templates to populate drafts" },
+  { id: "campaigns", label: "Campaigns", description: "Save and restore campaign draft snapshots" },
   { id: "audit", label: "Audit", description: "Demo protocol event log" },
   { id: "analytics", label: "Analytics", description: "Privacy-preserving product analytics" },
 ];
@@ -163,6 +164,7 @@ const SECTION_ICON: Record<DashboardSection, React.ElementType> = {
   attachments: Paperclip,
   events: Calendar,
   templates: FileText,
+  campaigns: History,
   audit: Activity,
   analytics: PieChart,
 };
