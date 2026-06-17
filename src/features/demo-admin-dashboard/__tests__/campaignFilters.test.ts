@@ -1,9 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  scoreCampaignMatch,
-  searchCampaigns,
-  filterCampaigns,
-} from "../helpers/campaignFilters";
+import { scoreCampaignMatch, searchCampaigns, filterCampaigns } from "../helpers/campaignFilters";
 import type { Campaign, CampaignFilters } from "../types/campaign.types";
 
 // Test fixtures
@@ -217,9 +213,7 @@ describe("campaignFilters", () => {
           owner: "alice-admin",
         };
         const result = filterCampaigns(testCampaigns, filters);
-        expect(result.every((c) => c.status === "active" && c.owner === "alice-admin")).toBe(
-          true
-        );
+        expect(result.every((c) => c.status === "active" && c.owner === "alice-admin")).toBe(true);
         expect(result.length).toBe(2); // test-001 and test-003
       });
 
@@ -233,10 +227,8 @@ describe("campaignFilters", () => {
         expect(
           result.every(
             (c) =>
-              c.status === "active" &&
-              c.audience === "new-users" &&
-              c.tags.includes("onboarding")
-          )
+              c.status === "active" && c.audience === "new-users" && c.tags.includes("onboarding"),
+          ),
         ).toBe(true);
         expect(result.length).toBe(1); // test-001
       });
@@ -248,7 +240,7 @@ describe("campaignFilters", () => {
         const result = filterCampaigns(testCampaigns, filters);
         // Both tags must be present
         expect(
-          result.every((c) => c.tags.includes("promotional") && c.tags.includes("seasonal"))
+          result.every((c) => c.tags.includes("promotional") && c.tags.includes("seasonal")),
         ).toBe(true);
         expect(result.length).toBe(1); // test-005
       });

@@ -45,9 +45,7 @@ export function scoreCampaignMatch(campaign: Campaign, query: string): number {
   }
 
   // Tag matches (accumulate for multiple matches)
-  const matchingTags = campaign.tags.filter((tag) =>
-    tag.toLowerCase().includes(normalizedQuery)
-  );
+  const matchingTags = campaign.tags.filter((tag) => tag.toLowerCase().includes(normalizedQuery));
   score += matchingTags.length * 15;
 
   return score;
@@ -102,10 +100,7 @@ function isDateInRange(dateStr: string, start: string, end: string): boolean {
  * @param filters - Filter criteria to apply
  * @returns Filtered campaign array
  */
-export function filterCampaigns(
-  campaigns: Campaign[],
-  filters: CampaignFilters
-): Campaign[] {
+export function filterCampaigns(campaigns: Campaign[], filters: CampaignFilters): Campaign[] {
   let result = campaigns;
 
   // Filter by status
@@ -115,9 +110,7 @@ export function filterCampaigns(
 
   // Filter by tags (all specified tags must be present)
   if (filters.tags && filters.tags.length > 0) {
-    result = result.filter((campaign) =>
-      filters.tags!.every((tag) => campaign.tags.includes(tag))
-    );
+    result = result.filter((campaign) => filters.tags!.every((tag) => campaign.tags.includes(tag)));
   }
 
   // Filter by audience
@@ -128,11 +121,7 @@ export function filterCampaigns(
   // Filter by date range
   if (filters.dateRange) {
     result = result.filter((campaign) =>
-      isDateInRange(
-        campaign.dateCreated,
-        filters.dateRange!.start,
-        filters.dateRange!.end
-      )
+      isDateInRange(campaign.dateCreated, filters.dateRange!.start, filters.dateRange!.end),
     );
   }
 

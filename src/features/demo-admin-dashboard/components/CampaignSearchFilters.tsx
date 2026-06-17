@@ -109,7 +109,7 @@ export function CampaignSearchFilters({
             "bg-white/[0.02] border border-white/[0.06]",
             "text-foreground placeholder:text-muted-foreground",
             "focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/40",
-            "transition-colors"
+            "transition-colors",
           )}
           aria-label="Search campaigns"
         />
@@ -119,18 +119,16 @@ export function CampaignSearchFilters({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {/* Status Filter */}
         <div>
-          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
-            Status
-          </label>
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">Status</label>
           <select
             value={status || ""}
-            onChange={(e) => onStatusChange(e.target.value as CampaignStatus || undefined)}
+            onChange={(e) => onStatusChange((e.target.value as CampaignStatus) || undefined)}
             className={cn(
               "w-full px-3 py-2 rounded-lg",
               "bg-white/[0.02] border border-white/[0.06]",
               "text-foreground",
               "focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/40",
-              "transition-colors cursor-pointer"
+              "transition-colors cursor-pointer",
             )}
             aria-label="Filter by status"
           >
@@ -145,9 +143,7 @@ export function CampaignSearchFilters({
 
         {/* Audience Filter */}
         <div>
-          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
-            Audience
-          </label>
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">Audience</label>
           <select
             value={audience || ""}
             onChange={(e) => onAudienceChange(e.target.value || undefined)}
@@ -156,7 +152,7 @@ export function CampaignSearchFilters({
               "bg-white/[0.02] border border-white/[0.06]",
               "text-foreground",
               "focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/40",
-              "transition-colors cursor-pointer"
+              "transition-colors cursor-pointer",
             )}
             aria-label="Filter by audience"
           >
@@ -171,9 +167,7 @@ export function CampaignSearchFilters({
 
         {/* Owner Filter */}
         <div>
-          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
-            Owner
-          </label>
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">Owner</label>
           <select
             value={owner || ""}
             onChange={(e) => onOwnerChange(e.target.value || undefined)}
@@ -182,7 +176,7 @@ export function CampaignSearchFilters({
               "bg-white/[0.02] border border-white/[0.06]",
               "text-foreground",
               "focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/40",
-              "transition-colors cursor-pointer"
+              "transition-colors cursor-pointer",
             )}
             aria-label="Filter by owner"
           >
@@ -197,9 +191,7 @@ export function CampaignSearchFilters({
 
         {/* Scenario Filter */}
         <div>
-          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
-            Scenario
-          </label>
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">Scenario</label>
           <select
             value={scenario || ""}
             onChange={(e) => onScenarioChange(e.target.value || undefined)}
@@ -208,7 +200,7 @@ export function CampaignSearchFilters({
               "bg-white/[0.02] border border-white/[0.06]",
               "text-foreground",
               "focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/40",
-              "transition-colors cursor-pointer"
+              "transition-colors cursor-pointer",
             )}
             aria-label="Filter by scenario"
           >
@@ -224,9 +216,7 @@ export function CampaignSearchFilters({
 
       {/* Tag Filter (Multi-select as checkboxes) */}
       <div>
-        <label className="block text-sm font-medium text-muted-foreground mb-2">
-          Tags
-        </label>
+        <label className="block text-sm font-medium text-muted-foreground mb-2">Tags</label>
         <div className="flex flex-wrap gap-2">
           {availableTags.map((tag) => {
             const isSelected = selectedTags.includes(tag);
@@ -239,7 +229,7 @@ export function CampaignSearchFilters({
                   "border",
                   isSelected
                     ? "bg-amber-400/20 border-amber-400/40 text-amber-200"
-                    : "bg-white/[0.02] border-white/[0.06] text-muted-foreground hover:bg-white/[0.04] hover:border-white/[0.12]"
+                    : "bg-white/[0.02] border-white/[0.06] text-muted-foreground hover:bg-white/[0.04] hover:border-white/[0.12]",
                 )}
                 aria-pressed={isSelected}
                 aria-label={`Filter by tag: ${tag}`}
@@ -261,7 +251,7 @@ export function CampaignSearchFilters({
               "bg-white/[0.04] border border-white/[0.08]",
               "text-sm font-medium text-foreground",
               "hover:bg-white/[0.06] hover:border-white/[0.12]",
-              "transition-colors"
+              "transition-colors",
             )}
             aria-label="Clear all filters"
           >

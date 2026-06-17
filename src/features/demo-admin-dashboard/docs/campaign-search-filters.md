@@ -17,34 +17,36 @@ This module provides a complete search and filtering system for campaigns in the
 ### Types (`types/campaign.types.ts`)
 
 #### `Campaign`
+
 Represents a single campaign record with the following fields:
 
 ```typescript
 interface Campaign {
-  id: string;              // Unique identifier
-  name: string;            // Campaign name
-  description: string;     // Campaign description
-  status: CampaignStatus;  // "active" | "paused" | "draft" | "completed"
-  tags: string[];          // Associated tags for categorization
-  audience: string;        // Target audience segment
-  dateCreated: string;     // ISO 8601 date string
-  owner: string;           // Campaign owner/creator
-  scenario: string;        // Scenario type
+  id: string; // Unique identifier
+  name: string; // Campaign name
+  description: string; // Campaign description
+  status: CampaignStatus; // "active" | "paused" | "draft" | "completed"
+  tags: string[]; // Associated tags for categorization
+  audience: string; // Target audience segment
+  dateCreated: string; // ISO 8601 date string
+  owner: string; // Campaign owner/creator
+  scenario: string; // Scenario type
 }
 ```
 
 #### `CampaignFilters`
+
 Defines available filter dimensions:
 
 ```typescript
 interface CampaignFilters {
-  searchQuery?: string;                        // Text search
-  status?: CampaignStatus;                     // Exact status match
-  tags?: string[];                             // All tags must match (AND)
-  audience?: string;                           // Exact audience match
-  dateRange?: { start: string; end: string };  // Inclusive date range
-  owner?: string;                              // Exact owner match
-  scenario?: string;                           // Exact scenario match
+  searchQuery?: string; // Text search
+  status?: CampaignStatus; // Exact status match
+  tags?: string[]; // All tags must match (AND)
+  audience?: string; // Exact audience match
+  dateRange?: { start: string; end: string }; // Inclusive date range
+  owner?: string; // Exact owner match
+  scenario?: string; // Exact scenario match
 }
 ```
 
@@ -53,12 +55,15 @@ interface CampaignFilters {
 ## Filter Logic
 
 ### Filter Combination
+
 All active filters use **AND logic** — a campaign must satisfy every active filter to be included in results.
 
 ### Tag Filtering
+
 When multiple tags are specified, **all tags must be present** on the campaign (AND logic, not OR).
 
 ### Date Range Filtering
+
 Date ranges are **inclusive** on both boundaries. Dates are compared using ISO 8601 string parsing.
 
 ---
@@ -67,16 +72,17 @@ Date ranges are **inclusive** on both boundaries. Dates are compared using ISO 8
 
 The search algorithm scores campaigns based on text match quality:
 
-| Match Type | Points | Description |
-|------------|--------|-------------|
-| Exact name match | 100 | Query exactly matches campaign name (case-insensitive) |
-| Partial name match | 50 | Campaign name contains the query |
-| Description match | 25 | Campaign description contains the query |
-| Tag match | 15 per tag | Query matches one or more tags |
+| Match Type         | Points     | Description                                            |
+| ------------------ | ---------- | ------------------------------------------------------ |
+| Exact name match   | 100        | Query exactly matches campaign name (case-insensitive) |
+| Partial name match | 50         | Campaign name contains the query                       |
+| Description match  | 25         | Campaign description contains the query                |
+| Tag match          | 15 per tag | Query matches one or more tags                         |
 
 Search results are sorted by **descending score** (most relevant first).
 
 ### Search Behavior
+
 - Case-insensitive matching
 - Partial substring matching (not fuzzy/Levenshtein)
 - Multiple matches accumulate points
@@ -89,9 +95,11 @@ Search results are sorted by **descending score** (most relevant first).
 ### Helper Functions
 
 #### `scoreCampaignMatch(campaign, query): number`
+
 Calculate relevance score for a single campaign.
 
 **Parameters:**
+
 - `campaign: Campaign` — Campaign to score
 - `query: string` — Search query
 
@@ -100,9 +108,11 @@ Calculate relevance score for a single campaign.
 ---
 
 #### `searchCampaigns(campaigns, query): Campaign[]`
+
 Search campaigns and return sorted results.
 
 **Parameters:**
+
 - `campaigns: Campaign[]` — Array of campaigns to search
 - `query: string` — Search query
 
@@ -111,9 +121,11 @@ Search campaigns and return sorted results.
 ---
 
 #### `filterCampaigns(campaigns, filters): Campaign[]`
+
 Apply all active filters to campaign array.
 
 **Parameters:**
+
 - `campaigns: Campaign[]` — Array to filter
 - `filters: CampaignFilters` — Filter criteria
 
@@ -124,19 +136,22 @@ Apply all active filters to campaign array.
 ### React Hook
 
 #### `useCampaignFilters(initialData)`
+
 Manages filter state and applies filters with memoization.
 
 **Parameters:**
+
 - `initialData: Campaign[]` — Array of campaigns to filter
 
 **Returns:**
+
 ```typescript
 {
   // State
   filters: CampaignFilters;
   filteredResults: Campaign[];
   hasActiveFilters: boolean;
-  
+
   // Update functions
   setSearchQuery: (query: string) => void;
   setStatus: (status: CampaignStatus | undefined) => void;
@@ -155,9 +170,11 @@ Manages filter state and applies filters with memoization.
 ### UI Component
 
 #### `<CampaignSearchFilters />`
+
 Provides a complete UI for search and filtering.
 
 **Required Props:**
+
 - `onSearchQueryChange: (query: string) => void`
 - `onStatusChange: (status: CampaignStatus | undefined) => void`
 - `onTagToggle: (tag: string) => void`
@@ -172,6 +189,7 @@ Provides a complete UI for search and filtering.
 - `availableScenarios: string[]`
 
 **Optional Props:**
+
 - `searchQuery?: string`
 - `status?: CampaignStatus`
 - `selectedTags?: string[]`
@@ -185,7 +203,9 @@ Provides a complete UI for search and filtering.
 ## Fixtures
 
 ### `campaignFixtures` (`fixtures/campaigns.fixture.ts`)
+
 Provides 22 deterministic campaign records covering:
+
 - All 4 status values
 - 20+ unique tags
 - 15+ audience segments
@@ -194,8 +214,9 @@ Provides 22 deterministic campaign records covering:
 - 15+ scenario types
 
 **Usage:**
+
 ```typescript
-import { campaignFixtures } from '../fixtures/campaigns.fixture';
+import { campaignFixtures } from "../fixtures/campaigns.fixture";
 ```
 
 ---
@@ -205,6 +226,7 @@ import { campaignFixtures } from '../fixtures/campaigns.fixture';
 Tests are located in `__tests__/campaignFilters.test.ts` and cover:
 
 ### Search Scoring
+
 - Empty query handling
 - Exact name matches (100 points)
 - Partial name matches (50 points)
@@ -214,12 +236,14 @@ Tests are located in `__tests__/campaignFilters.test.ts` and cover:
 - Case-insensitive matching
 
 ### Search Function
+
 - Empty query returns all campaigns
 - Results sorted by score
 - Zero-score campaigns excluded
 - Case-insensitive behavior
 
 ### Single Filter Tests
+
 - Status filter
 - Tag filter (single and multiple)
 - Audience filter
@@ -228,6 +252,7 @@ Tests are located in `__tests__/campaignFilters.test.ts` and cover:
 - Date range filter (inclusive boundaries, cross-year)
 
 ### Compound Filter Tests
+
 - Status + Owner
 - Status + Audience + Tags
 - Multiple tags (AND logic)
@@ -235,10 +260,12 @@ Tests are located in `__tests__/campaignFilters.test.ts` and cover:
 - All filters combined
 
 ### Search + Filter Integration
+
 - Search applied to filtered results
 - All filters with search query
 
 ### Edge Cases
+
 - No matches return empty array
 - Empty tag array treated as no filter
 - Whitespace-only search query
@@ -246,6 +273,7 @@ Tests are located in `__tests__/campaignFilters.test.ts` and cover:
 - Boundary date matching
 
 **Run tests:**
+
 ```bash
 npm test -- campaignFilters.test.ts
 ```
@@ -259,13 +287,15 @@ npm test -- campaignFilters.test.ts
 This module is **self-contained** and ready for integration into the wider admin dashboard. Here's how to wire it up:
 
 #### 1. Import the Hook and Component
+
 ```typescript
-import { useCampaignFilters } from '@/features/demo-admin-dashboard/hooks/useCampaignFilters';
-import { CampaignSearchFilters } from '@/features/demo-admin-dashboard/components/CampaignSearchFilters';
-import { campaignFixtures } from '@/features/demo-admin-dashboard/fixtures/campaigns.fixture';
+import { useCampaignFilters } from "@/features/demo-admin-dashboard/hooks/useCampaignFilters";
+import { CampaignSearchFilters } from "@/features/demo-admin-dashboard/components/CampaignSearchFilters";
+import { campaignFixtures } from "@/features/demo-admin-dashboard/fixtures/campaigns.fixture";
 ```
 
 #### 2. Use in a Dashboard Page
+
 ```typescript
 function CampaignManagementPage() {
   const {
@@ -322,18 +352,23 @@ function CampaignManagementPage() {
 ```
 
 #### 3. Replace Fixture Data with Real Data
+
 When connecting to a live data source:
+
 - Replace `campaignFixtures` with API response data
 - Ensure data conforms to the `Campaign` interface
 - Keep using `useCampaignFilters` hook unchanged
 
 #### 4. Add Routing (If Needed)
+
 To make this a routed page in the dashboard:
+
 - Add a route entry in your router configuration
 - Link to it from the dashboard navigation
 - This should **not** require modifying files outside `src/features/demo-admin-dashboard/`
 
 #### 5. Styling Customization
+
 The component uses Tailwind utility classes compatible with the existing design system. Adjust colors/spacing via the `className` prop if needed.
 
 ---
@@ -343,6 +378,7 @@ The component uses Tailwind utility classes compatible with the existing design 
 To add a new filter dimension (e.g., `priority`):
 
 1. **Update `Campaign` type** in `types/campaign.types.ts`:
+
    ```typescript
    interface Campaign {
      // ... existing fields
@@ -351,6 +387,7 @@ To add a new filter dimension (e.g., `priority`):
    ```
 
 2. **Update `CampaignFilters` type**:
+
    ```typescript
    interface CampaignFilters {
      // ... existing fields
@@ -359,6 +396,7 @@ To add a new filter dimension (e.g., `priority`):
    ```
 
 3. **Update `filterCampaigns` helper** in `helpers/campaignFilters.ts`:
+
    ```typescript
    if (filters.priority) {
      result = result.filter((campaign) => campaign.priority === filters.priority);
@@ -366,6 +404,7 @@ To add a new filter dimension (e.g., `priority`):
    ```
 
 4. **Update hook** in `hooks/useCampaignFilters.ts`:
+
    ```typescript
    const setPriority = (priority: "low" | "medium" | "high" | undefined) => {
      setFilters((prev) => ({ ...prev, priority }));
@@ -384,12 +423,14 @@ To add a new filter dimension (e.g., `priority`):
 ## Constraints & Boundaries
 
 ✅ **What This Module Does:**
+
 - Filters campaigns by multiple dimensions
 - Scores and ranks search results
 - Provides React UI components for filtering
 - Works with deterministic fixture data
 
 ❌ **Out of Scope (By Design):**
+
 - Campaign CRUD operations (create, update, delete)
 - Live API integration
 - Persisting filter state to URL/localStorage
@@ -401,6 +442,7 @@ To add a new filter dimension (e.g., `priority`):
 ## Future Enhancements
 
 Potential improvements (not required for issue #281):
+
 - Fuzzy/Levenshtein matching for search
 - Search highlighting in results
 - URL query parameter persistence
@@ -414,6 +456,7 @@ Potential improvements (not required for issue #281):
 ## Compliance
 
 This implementation satisfies all acceptance criteria from Issue #281:
+
 - ✅ All work under `src/features/demo-admin-dashboard/`
 - ✅ No files outside the folder modified
 - ✅ Campaign tags, metadata, scenario represented
