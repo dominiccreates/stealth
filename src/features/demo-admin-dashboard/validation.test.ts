@@ -181,4 +181,3 @@ describe("validateCampaignDrafts", () => {
     expect(results).toHaveLength(0);
   });
 });
-

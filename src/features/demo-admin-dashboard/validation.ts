@@ -7,7 +7,6 @@ import type {
 } from "./validation-types";
 import type { Draft } from "./types/draft";
 
-
 /** Display order for severities (errors first). */
 export const SEVERITY_ORDER: ValidationSeverity[] = ["error", "warning", "info"];
 
@@ -165,4 +164,3 @@ export function validateCampaignDrafts(drafts: Draft[]): ValidationIssue[] {
 
   return issues;
 }
-

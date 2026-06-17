@@ -35,7 +35,6 @@ import { validateCampaignDrafts } from "./validation";
 import type { Draft } from "./types/draft";
 import type { ValidationNavigation } from "./validation-types";
 
-
 // ─── Default Deterministic fake data ──────────────────────────────────────────
 
 const NAV_ITEMS: DashboardNavItem[] = [
@@ -686,7 +685,6 @@ function CampaignsContent({
   );
 }
 
-
 // ─── Dashboard Shell ──────────────────────────────────────────────────────────
 
 export function DemoAdminDashboard({ className }: DemoAdminDashboardProps) {
@@ -695,7 +693,6 @@ export function DemoAdminDashboard({ className }: DemoAdminDashboardProps) {
   const [selectedAccountAddress, setSelectedAccountAddress] = useState<string | null>(null);
   const [selectedMailSubject, setSelectedMailSubject] = useState<string | null>(null);
   const [draftDataset, setDraftDataset] = useState<Draft[]>([]);
-
 
   const activePreset = PRESET_SCENARIOS.find((p) => p.id === activePresetId);
 
